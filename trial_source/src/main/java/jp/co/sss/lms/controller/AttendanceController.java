@@ -45,6 +45,15 @@ public class AttendanceController {
 		// 勤怠一覧の取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
+		/**
+		 * ここから新規入力(07/11)
+		 */
+		List<AttendanceManagementDto> pastAttendanceEntriesDtoList = studentAttendanceService
+				.getPastAttendanceEntries(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
+		model.addAttribute("pastAttendanceEntriesDtoList", pastAttendanceEntriesDtoList);
+		/**
+		 * ここまで
+		 */
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
 		return "attendance/detail";
