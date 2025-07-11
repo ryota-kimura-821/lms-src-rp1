@@ -72,6 +72,21 @@ public class StudentAttendanceService {
 
 		return attendanceManagementDtoList;
 	}
+	/**
+	 * 新規入力（07/11）
+	 */
+	public List<AttendanceManagementDto> getPastAttendanceEntries(Integer courseId,
+			Integer lmsUserId) {
+
+		// 勤怠管理リストの取得
+		List<AttendanceManagementDto> attendanceManagementDtoList = tStudentAttendanceMapper
+				.getPastAttendanceEntries(courseId, lmsUserId, Constants.DB_FLG_FALSE);
+		
+		return attendanceManagementDtoList;
+	}
+	/**
+	 * ここまで
+	 */
 
 	/**
 	 * 出退勤更新前のチェック
