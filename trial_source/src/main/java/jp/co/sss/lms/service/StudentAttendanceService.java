@@ -75,14 +75,14 @@ public class StudentAttendanceService {
 	/**
 	 * 新規入力（07/11）
 	 */
-	public List<AttendanceManagementDto> getPastAttendanceEntries(Integer courseId,
-			Integer lmsUserId) {
+	public Integer getNotEnterCount(Integer lmsUserId) {
 
-		// 勤怠管理リストの取得
-		List<AttendanceManagementDto> attendanceManagementDtoList = tStudentAttendanceMapper
-				.getPastAttendanceEntries(courseId, lmsUserId, Constants.DB_FLG_FALSE);
+		// 勤怠情報未入力件数取得
+		Date trainingDate = attendanceUtil.getTrainingDate();
+		Integer notEnterCount = tStudentAttendanceMapper
+				.notEnterCount(lmsUserId, trainingDate, Constants.DB_FLG_FALSE);
 		
-		return attendanceManagementDtoList;
+		return notEnterCount;
 	}
 	/**
 	 * ここまで

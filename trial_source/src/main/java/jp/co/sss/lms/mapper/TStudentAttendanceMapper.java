@@ -64,14 +64,14 @@ public interface TStudentAttendanceMapper {
 	 * @return 更新結果
 	 */
 	Boolean update(TStudentAttendance tStudentAttendance);
-	
+
 	/**
-	 * 過去の勤怠時間入力の取得
+	 * 新規作成
+	 * 勤怠情報（受講生入力）未入力件数取得
 	 * 
 	 * 
 	 */
-	List<AttendanceManagementDto> getPastAttendanceEntries
-		(@Param("courseId") Integer courseId,@Param("lmsUserId") Integer lmsUserId,
-			@Param("deleteFlg") Short deleteFlg);
+	Integer notEnterCount(@Param("lmsUserId") Integer lmsUserId,
+			@Param("trainingDate") Date trainingDate,@Param("deleteFlg") Short deleteFlg);
 
 }

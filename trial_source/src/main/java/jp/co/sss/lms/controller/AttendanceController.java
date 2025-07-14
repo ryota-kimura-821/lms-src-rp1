@@ -46,11 +46,11 @@ public class AttendanceController {
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		/**
-		 * ここから新規入力(07/11)
+		 * ここから新規作成
 		 */
-		List<AttendanceManagementDto> pastAttendanceEntriesDtoList = studentAttendanceService
-				.getPastAttendanceEntries(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
-		model.addAttribute("pastAttendanceEntriesDtoList", pastAttendanceEntriesDtoList);
+		Integer notEnterCount = studentAttendanceService
+				.getNotEnterCount(loginUserDto.getLmsUserId());
+		model.addAttribute("notEnterCount", notEnterCount);
 		/**
 		 * ここまで
 		 */
