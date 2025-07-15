@@ -1,6 +1,7 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,13 +77,16 @@ public class StudentAttendanceService {
 	 * 新規入力（07/11）
 	 */
 	public Integer getNotEnterCount(Integer lmsUserId) {
-
-		// 勤怠情報未入力件数取得
-		Date trainingDate = attendanceUtil.getTrainingDate();
-		Integer notEnterCount = tStudentAttendanceMapper
-				.notEnterCount(lmsUserId, trainingDate, Constants.DB_FLG_FALSE);
-		
-		return notEnterCount;
+	    try {
+	        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	        Date trainingDate = df.parse(df.format(new Date()));
+	        Integer notEnterCount = tStudentAttendanceMapper
+	                .notEnterCount(lmsUserId, trainingDate, Constants.DB_FLG_FALSE);
+	        return notEnterCount;
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	        return 0;
+	    }
 	}
 	/**
 	 * ここまで
