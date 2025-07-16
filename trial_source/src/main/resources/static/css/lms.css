@@ -1704,3 +1704,9 @@ html, body {
 	float: left;
 	width: 50%;
 }
+/* 新規作成 */
+.form-flex{
+	display: flex;
+	width:150px;
+}
+/* ここまで */

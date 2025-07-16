@@ -27,6 +27,14 @@ public class AttendanceForm {
 	private String leaveDate;
 	/** 退校日（表示用） */
 	private String dispLeaveDate;
+	/**
+	 * 新規作成
+	 */
+	private LinkedHashMap<String, String> trainingTimeHour;
+	private LinkedHashMap<String, String> trainingTimeMinute;
+	/**
+	 * ここまで
+	 */
 	/** 中抜け時間(プルダウン) */
 	private LinkedHashMap<Integer, String> blankTimes;
 	/** 日次の勤怠フォームリスト */

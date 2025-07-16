@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
@@ -73,21 +74,23 @@ public class StudentAttendanceService {
 
 		return attendanceManagementDtoList;
 	}
+
 	/**
 	 * 新規入力（07/11）
 	 */
 	public Integer getNotEnterCount(Integer lmsUserId) {
-	    try {
-	        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	        Date trainingDate = df.parse(df.format(new Date()));
-	        Integer notEnterCount = tStudentAttendanceMapper
-	                .notEnterCount(lmsUserId, trainingDate, Constants.DB_FLG_FALSE);
-	        return notEnterCount;
-	    } catch (ParseException e) {
-	        e.printStackTrace();
-	        return 0;
-	    }
+		try {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date trainingDate = df.parse(df.format(new Date()));
+			Integer notEnterCount = tStudentAttendanceMapper
+					.notEnterCount(lmsUserId, trainingDate, Constants.DB_FLG_FALSE);
+			return notEnterCount;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
+
 	/**
 	 * ここまで
 	 */
@@ -237,6 +240,14 @@ public class StudentAttendanceService {
 		attendanceForm.setLmsUserId(loginUserDto.getLmsUserId());
 		attendanceForm.setUserName(loginUserDto.getUserName());
 		attendanceForm.setLeaveFlg(loginUserDto.getLeaveFlg());
+		/**
+		 * 新規作成
+		 */
+		attendanceForm.setTrainingTimeHour(attendanceUtil.setTrainingTimeHour());
+		attendanceForm.setTrainingTimeMinute(attendanceUtil.setTrainingTimeMinute());
+		/**
+		 * ここまで
+		 */
 		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
 
 		// 途中退校している場合のみ設定
@@ -254,9 +265,33 @@ public class StudentAttendanceService {
 					.setStudentAttendanceId(attendanceManagementDto.getStudentAttendanceId());
 			dailyAttendanceForm
 					.setTrainingDate(dateUtil.toString(attendanceManagementDto.getTrainingDate()));
-			dailyAttendanceForm
+			/**dailyAttendanceForm
 					.setTrainingStartTime(attendanceManagementDto.getTrainingStartTime());
 			dailyAttendanceForm.setTrainingEndTime(attendanceManagementDto.getTrainingEndTime());
+			*/
+			/**
+			 * 新規作成
+			 */
+			// 出勤時間を時・分に分割
+			if (attendanceManagementDto.getTrainingStartTime() != null && 
+					!attendanceManagementDto.getTrainingStartTime().isEmpty()) {
+			    dailyAttendanceForm.setTrainingStartTimeHour(attendanceUtil.extractTrainingTimeHour(
+			    		attendanceManagementDto.getTrainingStartTime()));
+			    dailyAttendanceForm.setTrainingStartTimeMinute(attendanceUtil.extractTrainingTimeMinute(
+			    		attendanceManagementDto.getTrainingStartTime()));
+			}
+			
+			// 退勤時間を時・分に分割
+			if (attendanceManagementDto.getTrainingEndTime() != null &&
+					!attendanceManagementDto.getTrainingEndTime().isEmpty()) {
+			    dailyAttendanceForm.setTrainingEndTimeHour(attendanceUtil.extractTrainingTimeHour(
+			    		attendanceManagementDto.getTrainingEndTime()));
+			    dailyAttendanceForm.setTrainingEndTimeMinute(attendanceUtil.extractTrainingTimeMinute(
+			    		attendanceManagementDto.getTrainingEndTime()));
+			}
+			/**
+			 * ここまで
+			 */
 			if (attendanceManagementDto.getBlankTime() != null) {
 				dailyAttendanceForm.setBlankTime(attendanceManagementDto.getBlankTime());
 				dailyAttendanceForm.setBlankTimeValue(String.valueOf(
@@ -295,6 +330,29 @@ public class StudentAttendanceService {
 		// 入力された情報を更新用のエンティティに移し替え
 		Date date = new Date();
 		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
+			/**
+			 * 新規作成
+			 */
+			// 出勤時間の時・分を結合
+			if (StringUtils.hasText(dailyAttendanceForm.getTrainingStartTimeHour()) &&
+				    StringUtils.hasText(dailyAttendanceForm.getTrainingStartTimeMinute())) {
+
+				    dailyAttendanceForm.setTrainingStartTime(
+				        dailyAttendanceForm.getTrainingStartTimeHour() +
+				        ":" + dailyAttendanceForm.getTrainingStartTimeMinute());
+				}
+		    // 退勤時間の時・分を結合
+			if (StringUtils.hasText(dailyAttendanceForm.getTrainingEndTimeHour()) &&
+				    StringUtils.hasText(dailyAttendanceForm.getTrainingEndTimeMinute())) {
+
+				    dailyAttendanceForm.setTrainingEndTime(
+				    		dailyAttendanceForm.getTrainingEndTimeHour() +
+				    		":" + dailyAttendanceForm.getTrainingEndTimeMinute());
+				}
+		    /**
+		     * ここまで
+		     */
+
 
 			// 更新用エンティティ作成
 			TStudentAttendance tStudentAttendance = new TStudentAttendance();
