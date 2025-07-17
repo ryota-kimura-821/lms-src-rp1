@@ -1,5 +1,6 @@
 package jp.co.sss.lms.form;
 
+import jp.co.sss.lms.util.AttendanceUpdate;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author 東京ITスクール
  */
 @Data
+@AttendanceUpdate
 public class DailyAttendanceForm {
 
 	/** 受講生勤怠ID */
@@ -20,9 +22,11 @@ public class DailyAttendanceForm {
 	private String trainingStartTime;
 	/** 退勤時間 */
 	private String trainingEndTime;
+	
 	/**
 	 * 新規追加
 	 */
+	
 	/** 出勤：時（00〜23時）*/
 	private String trainingStartTimeHour;
 	/** 出勤：分（00〜59分） */
@@ -31,9 +35,11 @@ public class DailyAttendanceForm {
     private String trainingEndTimeHour;
     /** 退勤：分（00〜59分） */
     private String trainingEndTimeMinute;
+    
     /**
      * ここまで
      */
+    
 	/** 中抜け時間 */
 	private Integer blankTime;
 	/** 中抜け時間（画面表示用） */

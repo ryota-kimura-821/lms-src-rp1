@@ -131,10 +131,12 @@ public class AttendanceUtil {
 		}
 		return map;
 	}
+	
 	/**
 	 * 新規作成
 	 */
-	// 時間（00〜23）を返すマップ
+	
+	// 時（00〜23）を返すマップ
     public LinkedHashMap<String, String> setTrainingTimeHour() {
         LinkedHashMap<String, String> hourMap = new LinkedHashMap<>();
         for (int i = 0; i < 24; i++) {
@@ -154,13 +156,18 @@ public class AttendanceUtil {
         return minuteMap;
     }
     
-	// 出勤・退勤時間の時・分を分割
+	// 出勤・退勤時間の時を抽出
 	public String extractTrainingTimeHour(String trainingTime){
 		return trainingTime.split(":")[0];
 	}
+	// 出勤・退勤時間の分を抽出
 	public String extractTrainingTimeMinute(String trainingTime){
 		return trainingTime.split(":")[1];
 	}
+	
+	/**
+	 * ここまで
+	 */
 
 	/**
 	 * 研修日の判定

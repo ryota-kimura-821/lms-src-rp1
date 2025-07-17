@@ -8,12 +8,12 @@
 
 <body>
 	<!-- ここから新規作成 -->
-	<!-- 勤怠情報の未入力件数が1件でもあればポップアップが表示される -->
-<span>
-    <input type="hidden" id="hasNotEnterCount"
-       th:value="${notEnterCount > 0} ? 'true' : 'false'" />
-</span>
-<script th:src="@{/js/notEnterCountAlert.js}" type="text/javascript"></script>
+	
+	<!-- 勤怠情報の未入力がある場合ポップアップが表示される -->
+	<script th:if="${hasAlert}">
+        alert('過去日の勤怠に未入力があります。');
+    </script>
+    
 	<!-- ここまで -->
 
 

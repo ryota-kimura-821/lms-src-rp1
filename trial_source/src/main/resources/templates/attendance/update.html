@@ -18,7 +18,6 @@
 			<h2><small>途中退校日：${dispLeaveDate}</small></h2>
 		</th:block>
 	</th:block>
-
 	<div class="row">
 		<div class="bs-component col-sm-12">
 
@@ -56,27 +55,33 @@
 								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
 
 								<!-- 新規作成 -->
+								
 								<!-- 出勤時間 -->
 								<td class="w70">
 									<div class="form-flex">
-										<select class="form-control"
+										<select class="form-control start-hour"
 											th:name="|attendanceList[${stat.index}].trainingStartTimeHour|">
-											<option value="" 
-											th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingStartTimeHour)}">
+											<!-- 時：未選択 -->
+											<option value=""
+												th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingStartTimeHour)}">
 											</option>
+											<!-- 時：00～23 -->
 											<option th:each="trainingTimeHour:${attendanceForm.trainingTimeHour}"
 												th:value="${trainingTimeHour.key}" th:inline="text" class="form-control"
 												th:selected="${trainingTimeHour.key == dailyAttendanceForm.trainingStartTimeHour}">
 												[[${trainingTimeHour.value}]]</option>
 										</select>
 										：
-										<select class="form-control"
+										<select class="form-control start-minute"
 											th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|">
-											<option value="" 
-											th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingStartTimeMinute)}">
+											<!-- 分：未選択 -->
+											<option value=""
+												th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingStartTimeMinute)}">
 											</option>
+											<!-- 分：00～59 -->
 											<option th:each="trainingTimeMinute:${attendanceForm.trainingTimeMinute}"
-												th:value="${trainingTimeMinute.key}" th:inline="text" class="form-control"
+												th:value="${trainingTimeMinute.key}" th:inline="text"
+												class="form-control"
 												th:selected="${trainingTimeMinute.key == dailyAttendanceForm.trainingStartTimeMinute}">
 												[[${trainingTimeMinute.value}]]</option>
 										</select>
@@ -86,34 +91,37 @@
 								<!-- 退勤時間 -->
 								<td class="w70">
 									<div class="form-flex">
-										<select class="form-control"
+										<select class="form-control end-hour"
 											th:name="|attendanceList[${stat.index}].trainingEndTimeHour|">
-											<option value="" 
-											th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingEndTimeHour)}">
+											<!-- 時：未選択 -->
+											<option value=""
+												th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingEndTimeHour)}">
 											</option>
-											<th:block th:each="h : ${#numbers.sequence(0, 23)}">
-												<option th:each="trainingTimeHour:${attendanceForm.trainingTimeHour}"
+											<!-- 時：00～23 -->
+											<option th:each="trainingTimeHour:${attendanceForm.trainingTimeHour}"
 												th:value="${trainingTimeHour.key}" th:inline="text" class="form-control"
 												th:selected="${trainingTimeHour.key == dailyAttendanceForm.trainingEndTimeHour}">
 												[[${trainingTimeHour.value}]]</option>
-											</th:block>
 										</select>
 										：
-										<select class="form-control"
+										<select class="form-control end-minute"
 											th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|">
-											<option value="" 
-											th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingEndTimeMinute)}">
+											<!-- 分：未選択 -->
+											<option value=""
+												th:selected="${#strings.isEmpty(dailyAttendanceForm.trainingEndTimeMinute)}">
 											</option>
-											<th:block th:each="m : ${#numbers.sequence(0, 59)}">
-												<option th:each="trainingTimeMinute:${attendanceForm.trainingTimeMinute}"
-												th:value="${trainingTimeMinute.key}" th:inline="text" class="form-control"
+											<!-- 分：00～59 -->
+											<option th:each="trainingTimeMinute:${attendanceForm.trainingTimeMinute}"
+												th:value="${trainingTimeMinute.key}" th:inline="text"
+												class="form-control"
 												th:selected="${trainingTimeMinute.key == dailyAttendanceForm.trainingEndTimeMinute}">
 												[[${trainingTimeMinute.value}]]</option>
-											</th:block>
 										</select>
 									</div>
 								</td>
+								
 								<!-- ここまで -->
+								
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}"
@@ -139,13 +147,32 @@
 					<th:block th:if="${session.loginUserDto.role != '0001'}">
 						<input type="submit" value="戻る" name="indexCompany" class="btn btn-default" />
 					</th:block>
-					<input type="submit" value="更新" name="complete" class="btn btn-info" />
+					<input type="submit" value="更新" name="complete" class="btn btn-info" id="confirm" />
+					
 				</div>
 
 			</form>
 		</div>
 	</div>
+	
+	<!-- 新規作成 -->
+	
+	<!-- 「更新」ボタン押下時に確認ダイアログを表示 -->
+	<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const confirm = document.getElementById('confirm');
 
+            confirm.addEventListener('click', function (event) {
+                const confirmed = window.confirm('更新します。よろしいですか？');
+                if (!confirmed) {
+                    event.preventDefault(); // 「キャンセル」押下時フォーム送信をキャンセル
+                }
+            });
+        });
+    </script>
+    
+    <!-- ここまで -->
+    
 </body>
 
 </html>

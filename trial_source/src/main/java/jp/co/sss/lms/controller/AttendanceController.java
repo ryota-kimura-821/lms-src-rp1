@@ -45,15 +45,29 @@ public class AttendanceController {
 		// 勤怠一覧の取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
+		
 		/**
 		 * ここから新規作成
 		 */
+		
+		// 勤怠情報未入力件数の取得
 		Integer notEnterCount = studentAttendanceService
 				.getNotEnterCount(loginUserDto.getLmsUserId());
-		model.addAttribute("notEnterCount", notEnterCount);
+		
+		// 勤怠情報未入力があるかの判定
+		boolean hasAlert;
+		if(notEnterCount > 0) {
+			hasAlert = true;
+		}
+		else {
+			hasAlert = false;
+		}
+		model.addAttribute("hasAlert", hasAlert);
+		
 		/**
 		 * ここまで
 		 */
+		
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
 		return "attendance/detail";
