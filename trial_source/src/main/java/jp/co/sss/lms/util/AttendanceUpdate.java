@@ -14,11 +14,11 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { AttendanceUpdateValidator.class }) 
 public @interface AttendanceUpdate {
 	
-	String message() default "{attendance.time.invalid}"; 
+	String message() default "*勤怠情報が正しく入力されていません。"; 
 	Class<?>[] groups() default {}; 
 	Class<? extends Payload>[] payload() default {}; 
-	String startHourField() default "trainingStartTimeHour";
-    String startMinuteField() default "trainingStartTimeMinute";
-    String endHourField() default "trainingEndTimeHour";
-    String endMinuteField() default "trainingEndTimeMinute";
+	String fieldTrainingStartTimeHour() default "trainingStartTimeHour";
+    String fieldTrainingStartTimeMinute() default "trainingStartTimeMinute";
+    String fieldTrainingEndTimeHour() default "trainingEndTimeHour";
+    String fieldTrainingEndTimeMinute() default "trainingEndTimeMinute";
 }
