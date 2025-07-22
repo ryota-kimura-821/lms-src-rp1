@@ -12,7 +12,15 @@
 		<h2>勤怠管理</h2>
 	</th:block>
 	
-
+	<span th:if="${errorAttendanceForm} != null">
+		<th:block th:object="${errorAttendanceForm}">
+		<ul>
+			<li th:each="error:${#fields.detailedErrors()}">
+				<span th:text="${error.message}"></span>
+			</li>
+		</ul>
+	</th:block>
+	</span>
 
 	
 
