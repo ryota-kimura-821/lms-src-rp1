@@ -11,6 +11,10 @@
 	<th:block th:if="${session.loginUserDto.role == '0001'}">
 		<h2>勤怠管理</h2>
 	</th:block>
+	
+
+
+	
 
 	<th:block th:if="${session.loginUserDto.role != '0001'}">
 		<h2>勤怠管理 <small>( [[${attendanceForm.userName}]] )</small></h2>
@@ -55,7 +59,7 @@
 								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
 
 								<!-- 新規作成 -->
-								
+
 								<!-- 出勤時間 -->
 								<td class="w70">
 									<div class="form-flex">
@@ -119,9 +123,9 @@
 										</select>
 									</div>
 								</td>
-								
+
 								<!-- ここまで -->
-								
+
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}"
@@ -148,31 +152,31 @@
 						<input type="submit" value="戻る" name="indexCompany" class="btn btn-default" />
 					</th:block>
 					<input type="submit" value="更新" name="complete" class="btn btn-info" id="confirm" />
-					
+
 				</div>
 
 			</form>
 		</div>
 	</div>
-	
+
 	<!-- 新規作成 -->
-	
+
 	<!-- 「更新」ボタン押下時に確認ダイアログを表示 -->
 	<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const confirm = document.getElementById('confirm');
+		document.addEventListener('DOMContentLoaded', function () {
+			const confirm = document.getElementById('confirm');
 
-            confirm.addEventListener('click', function (event) {
-                const confirmed = window.confirm('更新します。よろしいですか？');
-                if (!confirmed) {
-                    event.preventDefault(); // 「キャンセル」押下時フォーム送信をキャンセル
-                }
-            });
-        });
-    </script>
-    
-    <!-- ここまで -->
-    
+			confirm.addEventListener('click', function (event) {
+				const confirmed = window.confirm('更新します。よろしいですか？');
+				if (!confirmed) {
+					event.preventDefault(); // 「キャンセル」押下時フォーム送信をキャンセル
+				}
+			});
+		});
+	</script>
+
+	<!-- ここまで -->
+
 </body>
 
 </html>

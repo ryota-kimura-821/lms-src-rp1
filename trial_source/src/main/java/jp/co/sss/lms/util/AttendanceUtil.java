@@ -158,10 +158,16 @@ public class AttendanceUtil {
     
 	// 出勤・退勤時間の時を抽出
 	public String extractTrainingTimeHour(String trainingTime){
+		if (trainingTime.split(":")[0] == null || trainingTime.split(":")[0].isEmpty()) {
+	        return "";
+	    }
 		return trainingTime.split(":")[0];
 	}
 	// 出勤・退勤時間の分を抽出
 	public String extractTrainingTimeMinute(String trainingTime){
+		if (trainingTime.split(":")[1] == null || trainingTime.split(":")[1].isEmpty()) {
+	        return "";
+	    }
 		return trainingTime.split(":")[1];
 	}
 	

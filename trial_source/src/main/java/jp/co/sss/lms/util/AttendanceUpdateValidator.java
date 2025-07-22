@@ -35,7 +35,8 @@ public class AttendanceUpdateValidator implements ConstraintValidator<Attendance
 		if (inputCheck(trainingStartTimeHour, trainingStartTimeMinute)) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate("{input.valid}")
-					.addPropertyNode(this.trainingStartTimeHour)
+					.addPropertyNode("trainingStartTimeHour")
+					.addPropertyNode("trainingStartTimeMinute")
 					.addConstraintViolation();
 			valid = false;
 		}
@@ -43,11 +44,12 @@ public class AttendanceUpdateValidator implements ConstraintValidator<Attendance
 		if (inputCheck(trainingEndTimeHour, trainingEndTimeMinute)) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate("{input.valid}")
-					.addPropertyNode(this.trainingEndTimeHour)
+					.addPropertyNode("trainingEndTimeHour")
+					.addPropertyNode("trainingEndTimeMinute")
 					.addConstraintViolation();
 			valid = false;
 		}
-
+		
 		return valid;
 	}
 

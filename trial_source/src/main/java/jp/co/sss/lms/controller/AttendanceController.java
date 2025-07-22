@@ -156,18 +156,29 @@ public class AttendanceController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
-	public String complete(@Valid AttendanceForm attendanceForm, Model model, BindingResult result)
+	public String complete(@Valid AttendanceForm attendanceForm, BindingResult result, Model model)
 			throws ParseException {
 		
 		/**
 		 * 新規作成
 		 */
-		
-		// 入力チェック
+
 		if (result.hasErrors()) { 
+			
+			AttendanceForm errorAttendanceForm = attendanceForm;
+			model.addAttribute("errorAttendanceForm", errorAttendanceForm);
+			
+			// 勤怠管理リストの取得
+			List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
+					.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
+			
+			// 勤怠フォームの生成
+			attendanceForm = studentAttendanceService
+					.setAttendanceForm(attendanceManagementDtoList);
 			
 			model.addAttribute("attendanceForm", attendanceForm);
 
+			
 			return "attendance/update";
         }
 		
