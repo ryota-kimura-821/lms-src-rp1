@@ -1709,4 +1709,8 @@ html, body {
 	display: flex;
 	width:150px;
 }
+.input-invalid{
+	color:red;
+	font-weight: bold;
+}
 /* ここまで */

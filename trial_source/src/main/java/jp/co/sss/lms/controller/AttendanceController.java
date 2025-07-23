@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -40,35 +41,27 @@ public class AttendanceController {
 	 * @return 勤怠管理画面
 	 * @throws ParseException
 	 */
+
 	@RequestMapping(path = "/detail", method = RequestMethod.GET)
 	public String index(Model model) {
 
 		// 勤怠一覧の取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
-		
-		/**
-		 * ここから新規作成
-		 */
-		
+
+		// 新規作成
+
 		// 勤怠情報未入力件数の取得
 		Integer notEnterCount = studentAttendanceService
 				.getNotEnterCount(loginUserDto.getLmsUserId());
-		
+
 		// 勤怠情報未入力があるかの判定
-		boolean hasAlert;
-		if(notEnterCount > 0) {
-			hasAlert = true;
-		}
-		else {
-			hasAlert = false;
-		}
+		boolean hasAlert = notEnterCount > 0;
+
 		model.addAttribute("hasAlert", hasAlert);
-		
-		/**
-		 * ここまで
-		 */
-		
+
+		// ここまで
+
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
 		return "attendance/detail";
@@ -140,7 +133,7 @@ public class AttendanceController {
 		// 勤怠フォームの生成
 		AttendanceForm attendanceForm = studentAttendanceService
 				.setAttendanceForm(attendanceManagementDtoList);
-		
+
 		model.addAttribute("attendanceForm", attendanceForm);
 
 		return "attendance/update";
@@ -156,35 +149,29 @@ public class AttendanceController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
-	public String complete(@Valid AttendanceForm attendanceForm, BindingResult result, Model model)
+	public String complete(@Valid @ModelAttribute AttendanceForm attendanceForm, BindingResult result, Model model)
 			throws ParseException {
-		
-		/**
-		 * 新規作成
-		 */
 
-		if (result.hasErrors()) { 
-			
-			AttendanceForm errorAttendanceForm = attendanceForm;
-			model.addAttribute("errorAttendanceForm", errorAttendanceForm);
-			
+		// 新規作成
+
+		if (result.hasErrors()) {
+
 			// 勤怠管理リストの取得
 			List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 					.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
-			
-			// 勤怠フォームの生成
-			attendanceForm = studentAttendanceService
+
+			// 勤怠フォームの生成(時間・分取得用)
+			AttendanceForm preAttendanceForm = studentAttendanceService
 					.setAttendanceForm(attendanceManagementDtoList);
-			
+			attendanceForm.setTrainingTimeHour(preAttendanceForm.getTrainingTimeHour());
+			attendanceForm.setTrainingTimeMinute(preAttendanceForm.getTrainingTimeMinute());
+
 			model.addAttribute("attendanceForm", attendanceForm);
 
-			
 			return "attendance/update";
-        }
-		
-		/**
-		 * ここまで
-		 */
+		}
+
+		// ここまで
 
 		// 更新
 		String message = studentAttendanceService.update(attendanceForm);

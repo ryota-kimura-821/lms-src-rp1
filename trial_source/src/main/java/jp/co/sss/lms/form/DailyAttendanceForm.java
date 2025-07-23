@@ -13,7 +13,8 @@ import lombok.Data;
 	    fieldTrainingStartTimeHour = "trainingStartTimeHour",
 	    fieldTrainingStartTimeMinute = "trainingStartTimeMinute",
 	    fieldTrainingEndTimeHour = "trainingEndTimeHour",
-	    fieldTrainingEndTimeMinute = "trainingEndTimeMinute"
+	    fieldTrainingEndTimeMinute = "trainingEndTimeMinute",
+	    fieldNote = "note"
 	)
 public class DailyAttendanceForm {
 
@@ -28,9 +29,7 @@ public class DailyAttendanceForm {
 	/** 退勤時間 */
 	private String trainingEndTime;
 	
-	/**
-	 * 新規追加
-	 */
+	// 新規追加
 	
 	/** 出勤：時（00〜23時）*/
 	private String trainingStartTimeHour;
@@ -41,9 +40,7 @@ public class DailyAttendanceForm {
     /** 退勤：分（00〜59分） */
     private String trainingEndTimeMinute;
     
-    /**
-     * ここまで
-     */
+    // ここまで
     
 	/** 中抜け時間 */
 	private Integer blankTime;

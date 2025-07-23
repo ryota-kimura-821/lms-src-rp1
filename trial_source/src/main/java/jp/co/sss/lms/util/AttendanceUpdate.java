@@ -21,4 +21,5 @@ public @interface AttendanceUpdate {
     String fieldTrainingStartTimeMinute() default "trainingStartTimeMinute";
     String fieldTrainingEndTimeHour() default "trainingEndTimeHour";
     String fieldTrainingEndTimeMinute() default "trainingEndTimeMinute";
+    String fieldNote() default"note";
 }
