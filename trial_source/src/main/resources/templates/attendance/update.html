@@ -35,7 +35,7 @@
 					<thead>
 						<tr>
 							<th class="w140">日付</th>
-							<th class="w300">コース内容</th>
+							<th class="w250">コース内容</th>
 							<th class="w70">出勤</th>
 							<th class="w70">退勤</th>
 							<th class="w80">中抜け時間</th>
@@ -56,6 +56,8 @@
 									<input type="hidden" th:field="*{attendanceList[__${stat.index}__].sectionName}" />
 									<input type="hidden"
 										th:field="*{attendanceList[__${stat.index}__].statusDispName}" />
+									<input type="hidden" th:name="|attendanceList[${stat.index}].index|"
+										th:value="${stat.index}" />
 								</th:block>
 								<td class="w140">[[${dailyAttendanceForm.dispTrainingDate}]]</td>
 								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
@@ -92,8 +94,13 @@
 											</option>
 										</select>
 									</div>
-
-								</td>
+<!-- デバッグ用								<div style="font-size: 10px; color: blue;">
+										errorCheck Hour: [[${#fields.hasErrors('attendanceList[' + stat.index +
+										'].trainingStartTimeHour')}]]
+										errorCheck Minute: [[${#fields.hasErrors('attendanceList[' + stat.index +
+										'].trainingStartTimeMinute')}]]
+								</div>
+-->								</td>
 
 								<!-- 退勤時間 -->
 								<td class="w70">
@@ -129,7 +136,7 @@
 
 								<!-- ここまで -->
 
-								<td class="w80">
+								<td class="w120">
 									<select class="form-control"
 										th:field="*{attendanceList[__${stat.index}__].blankTime}"
 										th:errorclass="errorInput">
@@ -139,7 +146,7 @@
 											[[${blankTime.value}]]</option>
 									</select>
 								</td>
-								<td class="w70">[[${dailyAttendanceForm.statusDispName}]]</td>
+								<td class="w100">[[${dailyAttendanceForm.statusDispName}]]</td>
 								<td class="w240">
 									<input type="text" class="form-control"
 										th:field="*{attendanceList[__${stat.index}__].note}"

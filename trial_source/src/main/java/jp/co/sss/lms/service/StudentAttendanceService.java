@@ -76,7 +76,7 @@ public class StudentAttendanceService {
 	}
 
 	// 新規作成
-	
+
 	/**
 	 *  勤怠情報未入力件数の取得
 	 *  
@@ -97,7 +97,6 @@ public class StudentAttendanceService {
 	}
 
 	// ここまで
-
 
 	/**
 	 * 出退勤更新前のチェック
@@ -244,6 +243,7 @@ public class StudentAttendanceService {
 		attendanceForm.setLmsUserId(loginUserDto.getLmsUserId());
 		attendanceForm.setUserName(loginUserDto.getUserName());
 		attendanceForm.setLeaveFlg(loginUserDto.getLeaveFlg());
+		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
 
 		// 新規作成
 
@@ -251,8 +251,6 @@ public class StudentAttendanceService {
 		attendanceForm.setTrainingTimeMinute(attendanceUtil.setTrainingTimeMinute());
 
 		// ここまで
-
-		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
 
 		// 途中退校している場合のみ設定
 		if (loginUserDto.getLeaveDate() != null) {
@@ -273,27 +271,27 @@ public class StudentAttendanceService {
 					.setTrainingStartTime(attendanceManagementDto.getTrainingStartTime());
 			dailyAttendanceForm.setTrainingEndTime(attendanceManagementDto.getTrainingEndTime());
 			*/
-			
+
 			// 新規作成
 
 			// 出勤時間を時・分に分割
-			if (attendanceManagementDto.getTrainingStartTime() != null && 
+			if (attendanceManagementDto.getTrainingStartTime() != null &&
 					!attendanceManagementDto.getTrainingStartTime().isEmpty()) {
-			    dailyAttendanceForm.setTrainingStartTimeHour(attendanceUtil.extractTrainingTimeHour(
-			    		attendanceManagementDto.getTrainingStartTime()));
-			    dailyAttendanceForm.setTrainingStartTimeMinute(attendanceUtil.extractTrainingTimeMinute(
-			    		attendanceManagementDto.getTrainingStartTime()));
+				dailyAttendanceForm.setTrainingStartTimeHour(attendanceUtil.extractTrainingTimeHour(
+						attendanceManagementDto.getTrainingStartTime()));
+				dailyAttendanceForm.setTrainingStartTimeMinute(attendanceUtil.extractTrainingTimeMinute(
+						attendanceManagementDto.getTrainingStartTime()));
 			}
-			
+
 			// 退勤時間を時・分に分割
 			if (attendanceManagementDto.getTrainingEndTime() != null &&
 					!attendanceManagementDto.getTrainingEndTime().isEmpty()) {
-			    dailyAttendanceForm.setTrainingEndTimeHour(attendanceUtil.extractTrainingTimeHour(
-			    		attendanceManagementDto.getTrainingEndTime()));
-			    dailyAttendanceForm.setTrainingEndTimeMinute(attendanceUtil.extractTrainingTimeMinute(
-			    		attendanceManagementDto.getTrainingEndTime()));
+				dailyAttendanceForm.setTrainingEndTimeHour(attendanceUtil.extractTrainingTimeHour(
+						attendanceManagementDto.getTrainingEndTime()));
+				dailyAttendanceForm.setTrainingEndTimeMinute(attendanceUtil.extractTrainingTimeMinute(
+						attendanceManagementDto.getTrainingEndTime()));
 			}
-			
+
 			// ここまで
 
 			if (attendanceManagementDto.getBlankTime() != null) {
@@ -339,22 +337,22 @@ public class StudentAttendanceService {
 
 			// 出勤時間の時・分を結合
 			if (StringUtils.hasText(dailyAttendanceForm.getTrainingStartTimeHour()) &&
-				    StringUtils.hasText(dailyAttendanceForm.getTrainingStartTimeMinute())) {
+					StringUtils.hasText(dailyAttendanceForm.getTrainingStartTimeMinute())) {
 
-				    dailyAttendanceForm.setTrainingStartTime(
-				        dailyAttendanceForm.getTrainingStartTimeHour() +
-				        ":" + dailyAttendanceForm.getTrainingStartTimeMinute());
-				}
-		    // 退勤時間の時・分を結合
+				dailyAttendanceForm.setTrainingStartTime(
+						dailyAttendanceForm.getTrainingStartTimeHour() +
+								":" + dailyAttendanceForm.getTrainingStartTimeMinute());
+			}
+			// 退勤時間の時・分を結合
 			if (StringUtils.hasText(dailyAttendanceForm.getTrainingEndTimeHour()) &&
-				    StringUtils.hasText(dailyAttendanceForm.getTrainingEndTimeMinute())) {
+					StringUtils.hasText(dailyAttendanceForm.getTrainingEndTimeMinute())) {
 
-				    dailyAttendanceForm.setTrainingEndTime(
-				    		dailyAttendanceForm.getTrainingEndTimeHour() +
-				    		":" + dailyAttendanceForm.getTrainingEndTimeMinute());
-				}
-			
-		    // ここまで
+				dailyAttendanceForm.setTrainingEndTime(
+						dailyAttendanceForm.getTrainingEndTimeHour() +
+								":" + dailyAttendanceForm.getTrainingEndTimeMinute());
+			}
+
+			// ここまで
 
 			// 更新用エンティティ作成
 			TStudentAttendance tStudentAttendance = new TStudentAttendance();

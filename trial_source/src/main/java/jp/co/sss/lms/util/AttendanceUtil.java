@@ -132,9 +132,7 @@ public class AttendanceUtil {
 		return map;
 	}
 	
-	/**
-	 * 新規作成
-	 */
+	// 新規作成
 	
 	// 時（00〜23）を返すマップ
     public LinkedHashMap<String, String> setTrainingTimeHour() {
@@ -171,9 +169,7 @@ public class AttendanceUtil {
 		return trainingTime.split(":")[1];
 	}
 	
-	/**
-	 * ここまで
-	 */
+	// ここまで
 
 	/**
 	 * 研修日の判定

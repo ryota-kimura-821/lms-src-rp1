@@ -16,6 +16,7 @@ import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
 import jp.co.sss.lms.form.AttendanceForm;
 import jp.co.sss.lms.service.StudentAttendanceService;
+import jp.co.sss.lms.util.AttendanceUtil;
 import jp.co.sss.lms.util.Constants;
 
 /**
@@ -55,8 +56,8 @@ public class AttendanceController {
 		Integer notEnterCount = studentAttendanceService
 				.getNotEnterCount(loginUserDto.getLmsUserId());
 
-		// 勤怠情報未入力があるかの判定
-		boolean hasAlert = notEnterCount > 0;
+		// 勤怠情報未入力があるかの判定(未入力0件でもCountが1になってしまうため - 1)
+		boolean hasAlert = notEnterCount - 1 > 0;
 
 		model.addAttribute("hasAlert", hasAlert);
 
@@ -156,15 +157,10 @@ public class AttendanceController {
 
 		if (result.hasErrors()) {
 
-			// 勤怠管理リストの取得
-			List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
-					.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
-
-			// 勤怠フォームの生成(時間・分取得用)
-			AttendanceForm preAttendanceForm = studentAttendanceService
-					.setAttendanceForm(attendanceManagementDtoList);
-			attendanceForm.setTrainingTimeHour(preAttendanceForm.getTrainingTimeHour());
-			attendanceForm.setTrainingTimeMinute(preAttendanceForm.getTrainingTimeMinute());
+			AttendanceUtil attendanceUtil = new AttendanceUtil();
+			attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
+			attendanceForm.setTrainingTimeHour(attendanceUtil.setTrainingTimeHour());
+			attendanceForm.setTrainingTimeMinute(attendanceUtil.setTrainingTimeMinute());
 
 			model.addAttribute("attendanceForm", attendanceForm);
 

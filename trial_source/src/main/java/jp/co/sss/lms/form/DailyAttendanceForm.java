@@ -14,7 +14,8 @@ import lombok.Data;
 	    fieldTrainingStartTimeMinute = "trainingStartTimeMinute",
 	    fieldTrainingEndTimeHour = "trainingEndTimeHour",
 	    fieldTrainingEndTimeMinute = "trainingEndTimeMinute",
-	    fieldNote = "note"
+	    fieldNote = "note",
+	    fieldIndex = "index"
 	)
 public class DailyAttendanceForm {
 
