@@ -42,8 +42,8 @@ public class AttendanceForm {
 	private LinkedHashMap<Integer, String> blankTimes;
 	/** 日次の勤怠フォームリスト */
 	
-
-	@Valid /** 新規作成 */
+	
+	@Valid // 入力チェックの対象を指定
 	private List<DailyAttendanceForm> attendanceList;
 
 }

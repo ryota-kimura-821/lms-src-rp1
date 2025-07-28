@@ -9,6 +9,7 @@ import lombok.Data;
  * @author 東京ITスクール
  */
 @Data
+// 入力チェックの対象を指定
 @AttendanceUpdate(
 	    fieldTrainingStartTimeHour = "trainingStartTimeHour",
 	    fieldTrainingStartTimeMinute = "trainingStartTimeMinute",

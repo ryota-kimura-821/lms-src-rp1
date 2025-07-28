@@ -56,7 +56,7 @@ public class AttendanceController {
 		Integer notEnterCount = studentAttendanceService
 				.getNotEnterCount(loginUserDto.getLmsUserId());
 
-		// 勤怠情報未入力があるかの判定(未入力0件でもCountが1になってしまうため - 1)
+		// 勤怠情報未入力があるかの判定(未入力0件の状態でCountが1になってしまうため - 1している)
 		boolean hasAlert = notEnterCount - 1 > 0;
 
 		model.addAttribute("hasAlert", hasAlert);
@@ -154,9 +154,11 @@ public class AttendanceController {
 			throws ParseException {
 
 		// 新規作成
-
+		
+		// バリデーションエラー時の処理
 		if (result.hasErrors()) {
-
+			
+			// 出勤時間、退勤時間、中抜け時間のプルダウン用のマップをフォームに送る
 			AttendanceUtil attendanceUtil = new AttendanceUtil();
 			attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
 			attendanceForm.setTrainingTimeHour(attendanceUtil.setTrainingTimeHour());
